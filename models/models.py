@@ -1,27 +1,42 @@
-from pydantic import BaseModel, validator
+from pydantic import Field, field_validator, BaseModel, validator
 import csv
-from typing import Optional, List, Tuple
+from typing import Optional, List, Tuple, Union
 import re
 
 
 class ModelData(BaseModel):
     model_type: str
     model: str
-    input_per_1m_tokens: Optional[float]
-    input_per_1k_tokens: Optional[float]
-    input_per_token: Optional[float]
-    output_per_1m_tokens: Optional[float]
-    output_per_1k_tokens: Optional[float]
-    output_per_token: Optional[float]
-    training_per_1m_tokens: Optional[float]
-    training_per_1k_tokens: Optional[float]
-    training_per_token: Optional[float]
-    usage_per_1m_tokens: Optional[float]
-    usage_per_1k_tokens: Optional[float]
-    usage_per_token: Optional[float]
-    usage_unit: Optional[str]
+    input_per_1m_tokens: Optional[float] = Field(None, alias="Input per 1M tokens")
+    input_per_1k_tokens: Optional[float] = Field(None, alias="Input per 1K tokens")
+    input_per_token: Optional[float] = Field(None, alias="Input per token")
+    output_per_1m_tokens: Optional[float] = Field(None, alias="Output per 1M tokens")
+    output_per_1k_tokens: Optional[float] = Field(None, alias="Output per 1K tokens")
+    output_per_token: Optional[float] = Field(None, alias="Output per token")
+    training_per_1m_tokens: Optional[float] = Field(
+        None, alias="Training per 1M tokens"
+    )
+    training_per_1k_tokens: Optional[float] = Field(
+        None, alias="Training per 1K tokens"
+    )
+    training_per_token: Optional[float] = Field(None, alias="Training per token")
+    usage_per_1m_tokens: Optional[Union[float, str]] = Field(None, alias="Usage per 1M tokens")
+    usage_per_1k_tokens: Optional[Union[float, str]]= Field(None, alias="Usage per 1K tokens")
+    usage_per_token: Optional[Union[float, str]]= Field(None, alias="Usage per token")
+    usage_unit: Optional[str] = None
 
-    @validator("*", pre=True)
+    @field_validator(
+        "input_per_1m_tokens",
+        "input_per_1k_tokens",
+        "input_per_token",
+        "output_per_1m_tokens",
+        "output_per_1k_tokens",
+        "output_per_token",
+        "training_per_1m_tokens",
+        "training_per_1k_tokens",
+        "training_per_token",
+        pre=True,
+    )
     def extract_cost_and_unit(cls, v):
         if v is None or v == "-":
             return None
@@ -31,12 +46,11 @@ class ModelData(BaseModel):
             return match.groups()[0]
         return v
 
-    @validator(
+    @field_validator(
         "usage_per_1m_tokens",
         "usage_per_1k_tokens",
         "usage_per_token",
-        pre=True,
-        always=True,
+        check_fields=True,
     )
     def set_usage_unit(cls, v, values, field):
         if "usage_unit" in values or v is None:
