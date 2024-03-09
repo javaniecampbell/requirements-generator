@@ -1,0 +1,24 @@
+Model Type,Model,Input per 1M tokens,Input per 1K tokens,Input per token,Output per 1M tokens,Output per 1K tokens,Output per token,Training per 1M tokens,Training per 1K tokens,Training per token,Usage per 1M tokens,Usage per 1K tokens,Usage per token
+GPT-4 Turbo,gpt-4-0125-preview,10.00,0.01,0.00001,30.00,0.03,0.00003,,,,,,,
+GPT-4 Turbo,gpt-4-1106-preview,10.00,0.01,0.00001,30.00,0.03,0.00003,,,,,,,
+GPT-4 Turbo,gpt-4-1106-vision-preview,10.00,0.01,0.00001,30.00,0.03,0.00003,,,,,,,
+GPT-4,gpt-4,30.00,0.03,0.00003,60.00,0.06,0.00006,,,,,,,
+GPT-4,gpt-4-32k,60.00,0.06,0.00006,120.00,0.12,0.00012,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo-0125,0.50,0.0005,0.0000005,1.50,0.0015,0.0000015,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo-instruct,1.50,0.0015,0.0000015,2.00,0.0020,0.0000020,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo,8.00,0.0080,0.0000080,3.00,0.0030,0.0000030,6.00,0.0060,0.0000060,12.00,0.0120,0.0000120
+Base Models,davinci-002,6.00,0.0060,0.0000060,12.00,0.0120,0.0000120,2.00,0.0020,0.0000020,12.00,0.0120,0.0000120
+Base Models,babbage-002,0.40,0.0004,0.0000004,1.60,0.0016,0.0000016,0.40,0.0004,0.0000004,1.60,0.0016,0.0000016
+Text Embedding,text-embedding-3-small,,,,,,,,-,-,-,0.02,0.00002,0.00000002
+Text Embedding,text-embedding-3-large,,,,,,,,-,-,-,0.13,0.00013,0.00000013
+Text Embedding,ada v2,,,,,,,,-,-,-,0.10,0.00010,0.00000010
+Image Models,DALL·E 3 Standard,,,,,,,,-,-,-,0.040 / image (1024×1024) or 0.080 / image (1024×1792, 1792×1024),,,
+Image Models,DALL·E 3 HD,,,,,,,,-,-,-,0.080 / image (1024×1024) or 0.120 / image (1024×1792, 1792×1024),,,
+Image Models,DALL·E 2,,,,,,,,-,-,-,0.020 / image (1024×1024), 0.018 / image (512×512), or 0.016 / image (256×256),,,
+Audio Models,Whisper,,,,,,,,-,-,-,0.006 / minute,,,
+Audio Models,TTS,,,,,,,,-,-,-,15.00 / 1M characters,0.015 / 1K characters,0.000015 / character
+Audio Models,TTS HD,,,,,,,,-,-,-,30.00 / 1M characters,0.030 / 1K characters,0.000030 / character
+GPT-3.5 Turbo,gpt-3.5-turbo-1106,1.00,0.0010,0.0000010,2.00,0.0020,0.0000020,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo-0613,1.50,0.0015,0.0000015,2.00,0.0020,0.0000020,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo-16k-0613,3.00,0.0030,0.0000030,4.00,0.0040,0.0000040,,,,,,,
+GPT-3.5 Turbo,gpt-3.5-turbo-0301,1.50,0.0015,0.0000015,2.00,0.0020,0.0000020,,,,,,,
