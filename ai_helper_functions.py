@@ -14,10 +14,12 @@ GPT_4_32K_0613 = "gpt-4-32k-0613"
 GPT_4 = "gpt-4"
 
 
-
-
 def num_tokens_from_messages(messages, model=GPT_3_5_TURBO_0613):
     """Return the number of tokens used by a list of messages."""
+    if isinstance(messages, str):
+        # If messages is a string, wrap it in a list to make it iterable
+        messages = [{"content": messages}]
+
     try:
         encoding = tiktoken.encoding_for_model(model)
     except KeyError:
@@ -63,10 +65,14 @@ def num_tokens_from_messages(messages, model=GPT_3_5_TURBO_0613):
     return num_tokens
 
 
-def calculate_cost(num_tokens: int, model_identifier: str, model_data_list: List[ModelData]) -> float:
+def calculate_cost(
+    num_tokens: int, model_identifier: str, model_data_list: List[ModelData]
+) -> float:
     # Find the model data for the specified model
-    selected_model_data = next((data for data in model_data_list if data.model == model_identifier), None)
-    
+    selected_model_data = next(
+        (data for data in model_data_list if data.model == model_identifier), None
+    )
+
     if not selected_model_data:
         raise ValueError(f"Model '{model_identifier}' not found in provided data.")
 
@@ -85,6 +91,7 @@ def calculate_cost(num_tokens: int, model_identifier: str, model_data_list: List
     total_cost = num_tokens * cost_per_token
 
     return total_cost
+
 
 # Example usage:
 # num_tokens = num_tokens_from_messages(your_messages, your_model)
