@@ -1,4 +1,5 @@
 import time
+import os
 from dotenv import load_dotenv
 from ai_helper_functions import (
     GPT_3_5_TURBO_0613,
@@ -407,13 +408,14 @@ def main():
     print("Start...")
 
     # Example usage:
+    filepath = os.path.join(os.path.dirname(__file__), "data", "openai-pricelist.csv")
     num_tokens = num_tokens_from_messages(transcript, GPT_3_5_TURBO_0613)
     model_data_list = read_csv_data(filepath)
     for x in model_data_list:
-        print(model_data_list)
+        print(x)
     cost = calculate_cost(num_tokens, GPT_3_5_TURBO_0613, model_data_list)
     print(
-        f"Total cost for {num_tokens} tokens using model '{GPT_3_5_TURBO_0613}': ${cost:.2f}"
+        f"Total cost for {num_tokens} tokens using model '{GPT_3_5_TURBO_0613}': ${cost:.6f}"
     )
     # Step 1 - Cleanup the interview transcript for the product or project received from client
     print(
@@ -432,7 +434,7 @@ def main():
 
     # Step 4 - Generate a template for the product owner to review and approve
 
-    print(f"{template}")
+    # print(f"{template}")
     time.sleep(5)
 
 
