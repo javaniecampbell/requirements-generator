@@ -411,8 +411,6 @@ def main():
     filepath = os.path.join(os.path.dirname(__file__), "data", "openai-pricelist.csv")
     num_tokens = num_tokens_from_messages(transcript, GPT_3_5_TURBO_0613)
     model_data_list = read_csv_data(filepath)
-    for x in model_data_list:
-        print(x)
     cost = calculate_cost(num_tokens, GPT_3_5_TURBO_0613, model_data_list)
     print(
         f"Total cost for {num_tokens} tokens using model '{GPT_3_5_TURBO_0613}': ${cost:.6f}"
