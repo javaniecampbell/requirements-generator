@@ -1,7 +1,12 @@
 import time
 from dotenv import load_dotenv
+from ai_helper_functions import (
+    GPT_3_5_TURBO_0613,
+    calculate_cost,
+    num_tokens_from_messages,
+)
 
-from models import read_csv_data
+from models.models import read_csv_data
 
 load_dotenv()
 
@@ -401,12 +406,15 @@ User Stories with Acceptance Criteria
 def main():
     print("Start...")
 
-
-    # Example usage
-    filepath = "data/openai-pricelist.csv"
+    # Example usage:
+    num_tokens = num_tokens_from_messages(transcript, GPT_3_5_TURBO_0613)
     model_data_list = read_csv_data(filepath)
     for x in model_data_list:
-        print(model_data)
+        print(model_data_list)
+    cost = calculate_cost(num_tokens, GPT_3_5_TURBO_0613, model_data_list)
+    print(
+        f"Total cost for {num_tokens} tokens using model '{GPT_3_5_TURBO_0613}': ${cost:.2f}"
+    )
     # Step 1 - Cleanup the interview transcript for the product or project received from client
     print(
         "Step 1 - Cleanup the interview transcript for the product or project received from client"
