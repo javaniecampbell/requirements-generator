@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from domain.user_story import UserStory
 
@@ -10,7 +10,7 @@ class Feature:
         title: str,
         description: str,
         parent_epic_id: str,
-        user_stories: List["UserStory"],
+        user_stories: Optional[List["UserStory"]],
         status: str,
     ):
 
@@ -18,5 +18,8 @@ class Feature:
         self.title = title
         self.description = description
         self.parent_epic_id = parent_epic_id
-        self.user_stories = user_stories
+        self.user_stories = [] if user_stories is None else user_stories
         self.status = status
+
+    def add_user_story(self, user_story: UserStory):
+        self.user_stories.append(user_story)
