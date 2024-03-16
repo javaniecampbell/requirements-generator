@@ -9,6 +9,8 @@ from ai_helper_functions import (
     calculate_cost,
     num_tokens_from_messages,
 )
+from domain.domain_event import DomainEvent
+from domain.event_bus import EventBus
 
 from models.models import read_csv_data
 
@@ -524,7 +526,9 @@ def main():
         if chunk.choices[0].delta.content is not None:
             epics_feature_list += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
-    write_to_md(f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---""")
+    write_to_md(
+        f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---"""
+    )
     # Step 3 - Generate user stories with acceptance criteria from the epics & features list
     user_stories_stream = client.chat.completions.create(
         model=GPT_3_5_TURBO_0613,
@@ -574,7 +578,17 @@ def main():
     ---\n
     """
     print(f"\n{template}\n\n")
+    # Usage
+    EventBus.subscribe(on_feature_added)
     time.sleep(5)
+
+
+# Event Handlers
+def on_feature_added(event: DomainEvent):
+    if event.name == "FeatureAdded":
+        print(
+            f"Event: '{event.name}' - Feature '{event.data['feature']}' added to Epic '{event.data['epic']}'"
+        )
 
 
 if __name__ == "__main__":
