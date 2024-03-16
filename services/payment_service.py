@@ -37,6 +37,9 @@ class ProjectManagementService:
     def create_requirement(self, id: str, description: str, type: str) -> Requirement:
         return Requirement(id, description, type, "Pending")
 
+    def add_feature_to_epic(self, epic: Epic, feature: Feature):
+        epic.add_feature(feature)
+
 
 # Example Use Case
 # service = ProjectManagementService()
