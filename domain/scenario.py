@@ -9,4 +9,4 @@ class Scenario:
         self.title = title
         self.steps = steps
         self.parent_feature_id = parent_feature_id
-        self.status = status
+        self.status = status  # "To Do", "In Progress", "Done"
