@@ -17,7 +17,8 @@ class Epic:
         self.title = title
         self.description = description
         self.features = [] if features is None else features
-        self.status = status
-    
+        self.status = status  # "To Do", "In Progress", "Done"
+
     def add_feature(self, feature: Feature):
         self.features.append(feature)
+        print(f"Domain Event: Feature '{feature.title}' added to Epic '{self.title}'")
