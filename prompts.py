@@ -9,7 +9,21 @@ client = OpenAI()
 def cleanup_transcript(transcript):
     """
     Responsible for cleaning up the transcript of any unnecessary detail down to the core of the explanation received from client
+
+    Args:
+        transcript (str): The transcript to be cleaned up.
+
+    Returns:
+        str: The cleaned up transcript.
+
+    Examples:
+        >>> transcript = "This is a sample transcript with unnecessary details."
+        >>> cleaned_transcript = cleanup_transcript(transcript)
+        >>> print(cleaned_transcript)
+        "This is the core explanation received from the client."
+
     """
+
     cleaned_up_transcript = ""
     clean_up_prompt = f"""
         **Overview**
@@ -33,6 +47,8 @@ def cleanup_transcript(transcript):
 
         Cleaned up transcript: 
 
+    return cleaned_up_transcript
+
         …
         """
 
@@ -44,7 +60,23 @@ def cleanup_transcript(transcript):
 def generate_functional_non_functional_requirements(cleaned_up_transcript):
     """
     Responsible for generating the functional & non-functional requirements from the cleaned up prompt output
+
+    Args:
+        cleaned_up_transcript (str): The cleaned up transcript of the client or user explanation.
+
+    Returns:
+        str: The generated functional and non-functional requirements.
+
+    Examples:
+        >>> cleaned_up_transcript = "The system should allow users to create an account and login securely."
+        >>> generate_functional_non_functional_requirements(cleaned_up_transcript)
+        'Requirements: The system should have a user registration feature that allows users to create an account. The system should also have a secure login feature.'
+
+        >>> cleaned_up_transcript = "The system should be able to handle a large number of concurrent users without performance degradation."
+        >>> generate_functional_non_functional_requirements(cleaned_up_transcript)
+        'Requirements: The system should be scalable and able to handle a large number of concurrent users without any noticeable performance degradation.'
     """
+
     requirements = ""
     functional_non_functional_requirements_prompt = f"""
         **Overview**
@@ -73,7 +105,7 @@ def generate_functional_non_functional_requirements(cleaned_up_transcript):
         …
         """
     # TODO: Implement the functional & non-functional llm call here
-    
+
     return requirements
 
 
@@ -81,7 +113,20 @@ def generate_functional_non_functional_requirements(cleaned_up_transcript):
 def plan_product_epics_features_scenarios_from(requirements):
     """
     Responsible for creating epics and features from the output produced by the functional & non-functional requirements prompt.
+
+    Args:
+        requirements (str): The functional and non-functional requirements provided as a string.
+
+    Returns:
+        str: The generated epics and features as a string.
+
+    Examples:
+        >>> requirements = "Some example requirements"
+        >>> plan_product_epics_features_scenarios_from(requirements)
+        'Generated epics and features'
+
     """
+
     epics_feature_list = ""
     product_planner_prompt = f"""
     **Overview**
@@ -185,13 +230,60 @@ def plan_product_epics_features_scenarios_from(requirements):
     """
 
     # TODO: Implement the product planner call here
-    return  epics_feature_list
+    return epics_feature_list
+
+
+def generate_user_stories_with_acceptance_criteria(epics_feature_list):
+    """
+    Responsible for creating user stories and acceptance criteria from the epics & features list.
+
+    Args:
+        epics_feature_list (str): The list of epics and features.
+
+    Returns:
+        str: The generated user stories with acceptance criteria.
+
+    Examples:
+        >>> epics_feature_list = "Feature 1\nFeature 2\nFeature 3"
+        >>> generate_user_stories_with_acceptance_criteria(epics_feature_list)
+        'User Stories with Acceptance Criteria'
+
+    """
+
+    user_stories_with_acceptance_criteria = ""
+
+    user_story_acceptance_criteria_writer_prompt = f"""
+    **Overview**
+
+    Responsible for creation of user stories and acceptance criteria from the output produced by the product planner prompt. User stories will create using the I.N.V.E.S.T Framework story Description & Gherkin for Story Acceptance Criteria
+
+    ...
+
+    Given the Epics & Feature List, generate user stories with acceptance criteria as outlined in your task objective please:
+
+    “””
+    Epics & Feature List:
+
+    {epics_feature_list}
+
+    “”
+
+    Assistant:
+
+    User Stories with Acceptance Criteria
+
+    …
+    """
+
+    # TODO: Implement generate user stories llm call here
+    return user_stories_with_acceptance_criteria
 
 
 def generate_user_stories_with_acceptance_criteria(epics_feature_list):
     """
     Responsible for creating user stories and acceptance criteria from the epics & features list.
     """
+
     user_stories_with_acceptance_criteria = ""
 
     user_story_acceptance_criteria_writer_prompt = f"""
