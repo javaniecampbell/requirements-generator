@@ -1,5 +1,7 @@
+from re import S
 from domain.aggregate_root import AggregateRoot
 from domain.event import Event
+from domain.snapshot import Snapshot
 from event_sourcing_sample.account_created_event import AccountCreated
 from event_sourcing_sample.money_deposited_event import MoneyDeposited
 from event_sourcing_sample.money_withdrawn_event import MoneyWithdrawn
@@ -71,3 +73,13 @@ class BankAccountV2(AggregateRoot):
 
     def handle_MoneyWithdrawn(self, event):
         self.balance -= event.amount
+
+    def snapshot_state(self):
+        # Return the current state as a dictionary or similar structure
+        return {"owner": self.owner, "balance": self.balance}
+
+    def restore_from_snapshot(self, snapshot: Snapshot):
+        # Restore the state from a snapshot state
+        self.owner = snapshot.state["owner"]
+        self.balance = snapshot.state["balance"]
+        self.set_version(snapshot.version)
