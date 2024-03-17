@@ -17,7 +17,7 @@ class EventStore:
     ):
         self._events.extend(events)
 
-    def get_events_for_aggregate(self, aggregate_id: str):
+    def get_events_for_aggregate(self, aggregate_id: str) -> List["Event"]:
         return [event for event in self._events if event.aggregate_id == aggregate_id]
 
 
