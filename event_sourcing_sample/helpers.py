@@ -6,5 +6,6 @@ def rebuild_aggregate(event_store: EventStore, aggregate_id):
     bank_account = BankAccount(aggregate_id)
     events = event_store.get_events_for_aggregate(aggregate_id)
     for event in events:
+        print(f"Applying event: {event.type}")
         bank_account.apply(event)
     return bank_account
