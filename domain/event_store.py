@@ -1,4 +1,6 @@
 from typing import Dict, List, Optional, Type
+from multipledispatch import dispatch
+
 from domain.aggregate_root import AggregateRoot
 from domain.event import Event
 from domain.eventsourcing_helpers import rebuild_aggregate
@@ -25,7 +27,7 @@ class EventStore:
     ):
         if events:
             last_event = events[-1]
-            current_version = self. (aggregate_id)
+            current_version = self._get_current_version(aggregate_id)
             if expected_version != current_version:
                 raise Exception(
                     f"Concurrency error, expected version {expected_version} but got {current_version}. Concurrency conflict detected; incorrect version of the aggregate"
@@ -70,11 +72,56 @@ class EventStore:
         if snapshots:
             return max(snapshots, key=lambda s: s.version)
         return None
-    
-    def register_aggregate(self, aggregate_id: str, aggregate_type: Type[AggregateRoot]):
+
+    def register_aggregate(
+        self, aggregate_id: str, aggregate_type: Type[AggregateRoot]
+    ):
         if aggregate_id in self._aggregate_types:
-            raise ValueError(f"Aggregate type for ID {aggregate_id} is already registered.")
+            raise ValueError(
+                f"Aggregate type for ID {aggregate_id} is already registered."
+            )
         self._aggregate_types[aggregate_id] = aggregate_type
+
+
+# Event sourcing helpers
+
+
+@dispatch(EventStore, type, str)
+def rebuild_aggregate(
+    event_store: EventStore, aggregate_class: type, aggregate_id: str
+):
+    if not issubclass(aggregate_class, AggregateRoot):
+        raise ValueError("Aggregate class must inherit from AggregateRoot.")
+
+    aggregate = aggregate_class(aggregate_id)
+    events = event_store.get_events_for_aggregate(aggregate_id)
+    aggregate.load_from_history(events)
+    return aggregate
+
+
+@dispatch(EventStore, type, str, Optional[int])
+def rebuild_aggregate(event_store, aggregate_class, aggregate_id, upto_version=None):
+    if not issubclass(aggregate_class, AggregateRoot):
+        raise ValueError("Aggregate class must inherit from AggregateRoot.")
+
+    snapshot = event_store.get_latest_snapshot(aggregate_id)
+    if snapshot:
+        aggregate = aggregate_class(aggregate_id)
+        aggregate.restore_from_snapshot(snapshot)
+        starting_version = snapshot.version
+    else:
+        aggregate = aggregate_class(aggregate_id)
+        starting_version = 0
+
+    events = event_store.get_events_for_aggregate(
+        aggregate_id, after_version=starting_version
+    )
+    for event in events:
+        if upto_version is not None and event.version > upto_version:
+            break
+        aggregate.apply(event)
+
+    return aggregate
 
 
 # Usage
