@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from domain.event import Event
 from domain.snapshot import Snapshot
 
@@ -43,6 +43,12 @@ class EventStore:
         aggregate = rebuild_aggregate(self, aggregate_id,upto_version=last_event.version)
         snapshot = Snapshot(aggregate_id, last_event.version, aggregate)
         self._snapshots.append(snapshot)
+
+    def get_latest_snapshot(self, aggregate_id: str) -> Optional[Snapshot]:
+        snapshots = [snapshot for snapshot in self._snapshots if snapshot.aggregate_id == aggregate_id]
+        if snapshots:
+            return max(snapshots, key=lambda s: s.version)
+        return None
 
 
 # Usage
