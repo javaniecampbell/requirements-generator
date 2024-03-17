@@ -4,11 +4,11 @@ from domain.domain_event import DomainEvent
 
 
 class AggregateRoot:
-    def __init__(self, id):
+    def __init__(self, id: str):
         self._id = id
         self._domain_events: List["DomainEvent"] = []
 
-    def add_domain_event(self, event):
+    def add_domain_event(self, event: DomainEvent):
         self._domain_events.append(event)
 
     def clear_domain_events(self):
