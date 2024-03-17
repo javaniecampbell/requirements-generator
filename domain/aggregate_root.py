@@ -18,18 +18,18 @@ class AggregateRoot:
 
     def get_domain_events(self):
         return self._domain_events
-    
+
     def apply(self, event: DomainEvent):
         # self.add_domain_event(event)
         # self._apply_event(event)
         self.handle(event)
-        self._version = event.version # Update version based on event version
+        self._version = event.version  # Update version based on event version
         self._changes.append(event)
-    
+
     def handle(self, event: DomainEvent):
         """This method will be overridden by derived aggregates to handle specific event types."""
         raise NotImplementedError()
-    
+
     def snapshot_state(self):
         """Return the current state as a snapshot."""
         raise NotImplementedError
@@ -37,13 +37,24 @@ class AggregateRoot:
     def restore_from_snapshot(self):
         """Restore the state from a snapshot."""
         raise NotImplementedError
-    
+
     def clear_changes(self):
         self._changes.clear()
 
-    def load_from_history(self, events:List["DomainEvent"]):
+    def load_from_history(self, events: List["DomainEvent"]):
         for event in events:
             # self.handle(event)
             # self._version = event.version # Update the version to the event's version
             self.apply(event)
 
+    def get_uncommitted_changes(self):
+        return self._changes
+
+    def get_version(self):
+        return self._version
+
+    def set_version(self, version):
+        if version < self._version:
+            raise ValueError("Version must be greater than current version")
+
+        self._version = version
