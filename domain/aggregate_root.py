@@ -58,3 +58,6 @@ class AggregateRoot:
             raise ValueError("Version must be greater than current version")
 
         self._version = version
+
+    def get_id(self):
+        return self._id
