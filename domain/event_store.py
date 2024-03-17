@@ -3,7 +3,6 @@ from multipledispatch import dispatch
 
 from domain.aggregate_root import AggregateRoot
 from domain.event import Event
-from domain.eventsourcing_helpers import rebuild_aggregate
 from domain.snapshot import Snapshot
 
 
@@ -73,7 +72,7 @@ class EventStore:
             return max(snapshots, key=lambda s: s.version)
         return None
 
-    def register_aggregate(
+    def register_aggregate_type(
         self, aggregate_id: str, aggregate_type: Type[AggregateRoot]
     ):
         if aggregate_id in self._aggregate_types:
@@ -99,7 +98,7 @@ def rebuild_aggregate(
     return aggregate
 
 
-@dispatch(EventStore, type, str, Optional[int])
+@dispatch(EventStore, type, str, int)
 def rebuild_aggregate(event_store, aggregate_class, aggregate_id, upto_version=None):
     if not issubclass(aggregate_class, AggregateRoot):
         raise ValueError("Aggregate class must inherit from AggregateRoot.")
