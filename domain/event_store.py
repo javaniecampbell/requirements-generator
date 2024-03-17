@@ -18,11 +18,7 @@ class EventStore:
         self._events.extend(events)
 
     def get_events_for_aggregate(self, aggregate_id: str):
-        return [
-            event
-            for event in self._events
-            if event.data["aggregate_id"] == aggregate_id
-        ]
+        return [event for event in self._events if event.aggregate_id == aggregate_id]
 
 
 # Usage
