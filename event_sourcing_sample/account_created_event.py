@@ -8,5 +8,6 @@ class AccountCreated(Event):
             data={"account_id": account_id, "owner": owner},
             aggregate_id=account_id,
         )
+        self.version = 0
         self.account_id = account_id
         self.owner = owner

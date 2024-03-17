@@ -8,5 +8,6 @@ class MoneyDeposited(Event):
             data={"account_id": account_id, "amount": amount},
             aggregate_id=account_id,
         )
+        self.version = 0
         self.account_id = account_id
         self.amount = amount

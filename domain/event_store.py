@@ -24,7 +24,10 @@ class EventStore:
                 raise Exception(
                     f"Concurrency error, expected version {expected_version} but got {current_version}. Concurrency conflict detected; incorrect version of the aggregate"
                 )
-            self._events.extend(events)
+            for event in events:
+                event.version = current_version + 1 # Increment event version
+                self._events.append(event)
+                current_version += 1
             if(current_version + len(events)) % 5 == 0: # Snapshot every 5 events
                 self.create_snapshot(aggregate_id, last_event)
 
