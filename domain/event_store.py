@@ -25,7 +25,7 @@ class EventStore:
     ):
         if events:
             last_event = events[-1]
-            current_version = self._get_current_version(aggregate_id)
+            current_version = self. (aggregate_id)
             if expected_version != current_version:
                 raise Exception(
                     f"Concurrency error, expected version {expected_version} but got {current_version}. Concurrency conflict detected; incorrect version of the aggregate"
@@ -72,6 +72,8 @@ class EventStore:
         return None
     
     def register_aggregate(self, aggregate_id: str, aggregate_type: Type[AggregateRoot]):
+        if aggregate_id in self._aggregate_types:
+            raise ValueError(f"Aggregate type for ID {aggregate_id} is already registered.")
         self._aggregate_types[aggregate_id] = aggregate_type
 
 
