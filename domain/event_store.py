@@ -7,23 +7,48 @@ from domain.snapshot import Snapshot
 
 
 class EventStore:
+    """
+    Represents an event store that stores and retrieves events for aggregates.
+    """
+
     def __init__(self):
         self._events: List["Event"] = []
         self._snapshots: List["Snapshot"] = []
         # self._snapshot_interval = 5
-        self._aggregate_types: Dict[str, Type[AggregateRoot]] = (
-            {}
-        )  # New mapping of aggregate ID to type
+        self._aggregate_types: Dict[str, Type[AggregateRoot]] = ({}) # New mapping of aggregate ID to type
 
     def add_event(self, event: Event):
+        """
+        Adds an event to the event store.
+
+        Args:
+            event: The event to be added.
+        """
         self._events.append(event)
 
     def get_events(self) -> List[Event]:
+        """
+        Retrieves all events from the event store.
+
+        Returns:
+            A list of events.
+        """
         return self._events
 
     def save_events(
         self, aggregate_id: str, events: List[Event], expected_version: int
     ):
+        """
+        Saves a list of events for a specific aggregate.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+            events: The list of events to be saved.
+            expected_version: The expected version of the aggregate.
+
+        Raises:
+            Exception: If a concurrency conflict is detected.
+        """
         if events:
             last_event = events[-1]
             current_version = self._get_current_version(aggregate_id)
@@ -39,9 +64,27 @@ class EventStore:
                 self.create_snapshot(aggregate_id, last_event)
 
     def get_events_for_aggregate(self, aggregate_id: str) -> List["Event"]:
+        """
+        Retrieves all events for a specific aggregate.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+
+        Returns:
+            A list of events for the specified aggregate.
+        """
         return [event for event in self._events if event.aggregate_id == aggregate_id]
 
     def _get_current_version(self, aggregate_id: str) -> int:
+        """
+        Retrieves the current version of an aggregate.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+
+        Returns:
+            The current version of the aggregate.
+        """
         if self._events:
             related_events = self.get_events_for_aggregate(aggregate_id)
             if related_events:
@@ -50,6 +93,16 @@ class EventStore:
         return 0
 
     def create_snapshot(self, aggregate_id: str, last_event: Event):
+        """
+        Creates a snapshot for an aggregate.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+            last_event: The last event of the aggregate.
+
+        Raises:
+            ValueError: If no aggregate type is registered for the specified ID.
+        """
         aggregate_type = self._aggregate_types.get(aggregate_id)
         if not aggregate_type:
             raise ValueError(f"No aggregate type registered for ID {aggregate_id}")
@@ -63,6 +116,15 @@ class EventStore:
         self._snapshots.append(snapshot)
 
     def get_latest_snapshot(self, aggregate_id: str) -> Optional[Snapshot]:
+        """
+        Retrieves the latest snapshot for an aggregate.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+
+        Returns:
+            The latest snapshot for the specified aggregate, or None if no snapshot is found.
+        """
         snapshots = [
             snapshot
             for snapshot in self._snapshots
@@ -75,6 +137,16 @@ class EventStore:
     def register_aggregate_type(
         self, aggregate_id: str, aggregate_type: Type[AggregateRoot]
     ):
+        """
+        Registers an aggregate type for a specific ID.
+
+        Args:
+            aggregate_id: The ID of the aggregate.
+            aggregate_type: The type of the aggregate.
+
+        Raises:
+            ValueError: If an aggregate type is already registered for the specified ID.
+        """
         if aggregate_id in self._aggregate_types:
             raise ValueError(
                 f"Aggregate type for ID {aggregate_id} is already registered."
@@ -89,6 +161,20 @@ class EventStore:
 def rebuild_aggregate(
     event_store: EventStore, aggregate_class: type, aggregate_id: str
 ):
+    """
+    Rebuilds an aggregate by loading its history of events from the event store.
+
+    Args:
+        event_store (EventStore): The event store used to retrieve events.
+        aggregate_class (type): The class of the aggregate to rebuild.
+        aggregate_id (str): The ID of the aggregate to rebuild.
+
+    Returns:
+        AggregateRoot: The rebuilt aggregate.
+
+    Raises:
+        ValueError: If the aggregate class does not inherit from AggregateRoot.
+    """
     if not issubclass(aggregate_class, AggregateRoot):
         raise ValueError("Aggregate class must inherit from AggregateRoot.")
 
@@ -100,6 +186,21 @@ def rebuild_aggregate(
 
 @dispatch(EventStore, type, str, int)
 def rebuild_aggregate(event_store, aggregate_class, aggregate_id, upto_version=None):
+    """
+    Rebuilds an aggregate by applying events from the event store.
+
+    Args:
+        event_store (EventStore): The event store containing the events.
+        aggregate_class (type): The class of the aggregate to rebuild.
+        aggregate_id (str): The ID of the aggregate to rebuild.
+        upto_version (int, optional): The maximum version of events to apply. Defaults to None.
+
+    Returns:
+        AggregateRoot: The rebuilt aggregate.
+
+    Raises:
+        ValueError: If the aggregate class does not inherit from AggregateRoot.
+    """
     if not issubclass(aggregate_class, AggregateRoot):
         raise ValueError("Aggregate class must inherit from AggregateRoot.")
 
