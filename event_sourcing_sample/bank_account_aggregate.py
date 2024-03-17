@@ -1,3 +1,4 @@
+from domain.event import Event
 from event_sourcing_sample.account_created_event import AccountCreated
 from event_sourcing_sample.money_deposited_event import MoneyDeposited
 from event_sourcing_sample.money_withdrawn_event import MoneyWithdrawn
@@ -10,7 +11,7 @@ class BankAccount:
         self.balance = 0
         self.changes = []
 
-    def apply(self, event):
+    def apply(self, event: Event):
         if isinstance(event, AccountCreated):
             self.owner = event.owner
         elif isinstance(event, MoneyDeposited):
