@@ -83,3 +83,24 @@ class EventStore:
 # events = event_store.get_events()
 # for event in events:
 #     print(f"Event Type: {event.type}, Data: {event.data}, Timestamp: {event.timestamp}")
+
+# # Register the BankAccount aggregate type
+# # Initialize the EventStore
+# event_store = EventStore()
+
+# # Register a BankAccount aggregate type for a specific aggregate ID
+# event_store.register_aggregate_type("123", BankAccount)
+
+# # Assume you have a BankAccount instance with ID "123" and some events applied to it
+# # bank_account.apply(AccountCreated("123", "John Doe"))
+# # bank_account.apply(MoneyDeposited("123", 100))
+
+# # Add events to the EventStore
+# event_store.add_event(AccountCreated("123", "John Doe"))
+# event_store.add_event(MoneyDeposited("123", 100))
+
+# # The EventStore can now create a snapshot for the BankAccount with ID "123"
+# last_event = MoneyDeposited("123", 100)  # Assuming this is the last event applied
+# event_store.create_snapshot("123", last_event)
+
+# # The snapshot for the BankAccount with ID "123" is now stored in the EventStore
