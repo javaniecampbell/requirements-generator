@@ -1,7 +1,5 @@
 from typing import List, Optional
-
-from pkg_resources import Requirement
-
+from domain.requirement import Requirement
 from domain.user_story import UserStory
 
 
