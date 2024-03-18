@@ -4,6 +4,7 @@ from domain.domain_event import DomainEvent
 from domain.epic import Epic
 from domain.feature import Feature
 from domain.project import Project
+from domain.scenario import Scenario
 from domain.task import Task
 from domain.user_story import UserStory
 
@@ -29,7 +30,7 @@ class ProjectAggregate(AggregateRoot):
         """
         super().__init__(id)
         self.project = Project(id, name)
-        
+
         # Additional project-specific initialization
 
     # Project-specific methods
@@ -91,5 +92,17 @@ class ProjectAggregate(AggregateRoot):
         self.add_domain_event(
             DomainEvent(
                 "TaskCompleted", {"user_story_id": user_story_id, "task_id": task_id}
+            )
+        )
+
+    def add_scenario(self, feature_id, scenario_id, title, steps):
+        feature = next(f for f in self.features if f.id == feature_id)
+
+        scenario = Scenario(id=scenario_id, title=title, steps=steps)
+        feature.scenarios.append(scenario)
+
+        self.add_domain_event(
+            DomainEvent(
+                "ScenarioAdded", {"feature_id": feature_id, "scenario_id": scenario_id}
             )
         )
