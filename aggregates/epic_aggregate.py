@@ -45,16 +45,15 @@ class EpicAggregate(AggregateRoot):
 
     def add_task(self, story_id, task_id, desc):
         story = next(s for s in self.epic.user_stories if s.id == story_id)
-        
+
         task = Task(task_id, desc)
         story.tasks.append(task)
 
         self.add_domain_event(
-        DomainEvent("TaskAdded", {
-            "epic_id": self.epic.id,
-            "story_id": story_id,
-            "task_id": task_id
-        })  
+            DomainEvent(
+                "TaskAdded",
+                {"epic_id": self.epic.id, "story_id": story_id, "task_id": task_id},
+            )
         )
 
     def add_scenario(self, feature_id, scenario_id, title, steps):
@@ -64,9 +63,12 @@ class EpicAggregate(AggregateRoot):
         feature.scenarios.append(scenario)
 
         self.add_domain_event(
-        DomainEvent("ScenarioAdded", {
-            "epic_id": self.epic.id,
-            "feature_id": feature_id,
-            "scenario_id": scenario_id  
-        })
+            DomainEvent(
+                "ScenarioAdded",
+                {
+                    "epic_id": self.epic.id,
+                    "feature_id": feature_id,
+                    "scenario_id": scenario_id,
+                },
+            )
         )
