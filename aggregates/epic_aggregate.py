@@ -72,3 +72,11 @@ class EpicAggregate(AggregateRoot):
                 },
             )
         )
+
+    def start_epic(self):
+        self.epic.status = "In Progress"
+        self.add_domain_event(DomainEvent("EpicStarted", {"epic_id": self.epic.id}))
+
+    def complete_epic(self):
+        self.epic.status = "Completed"
+        self.add_domain_event(DomainEvent("EpicCompleted", {"epic_id": self.epic.id}))
