@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 import os
 from dotenv import load_dotenv
@@ -21,7 +22,7 @@ load_dotenv()
 client = OpenAI()
 
 
-md_file = "requirements.md"
+md_file = f"requirements{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
 
 
 def write_to_md(text):
