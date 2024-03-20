@@ -13,6 +13,7 @@ from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
 from models.models import read_csv_data
+from prompts import cleanup_transcript
 
 load_dotenv()
 
@@ -434,24 +435,7 @@ def main():
     print(
         "Step 1 - Cleanup the interview transcript for the product or project received from client\n\n"
     )
-    transcript_stream = client.chat.completions.create(
-        model=GPT_3_5_TURBO_0613,
-        messages=[
-            {"role": "system", "content": clean_up_prompt},
-            {
-                "role": "user",
-                "content": f'''Clenaup the interview transcript for the product or project received from client
-                
-
-                """
-                {transcript}
-                """
-
-                ''',
-            },
-        ],
-        stream=True,
-    )
+    transcript_stream, messages = cleanup_transcript(transcript, stream=True)
     print(f"Cleaned up transcript:\n\n")
     for chunk in transcript_stream:
         if chunk.choices[0].delta.content is not None:

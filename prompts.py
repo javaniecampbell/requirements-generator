@@ -1,12 +1,15 @@
+from pyexpat.errors import messages
 from openai import OpenAI
 from dotenv import load_dotenv
+
+from ai_helper_functions import GPT_3_5_TURBO_0613
 
 load_dotenv()
 client = OpenAI()
 
 
 # Step 1 - Clean up the transcript from client
-def cleanup_transcript(transcript):
+def cleanup_transcript(transcript, stream=False):
     """
     Responsible for cleaning up the transcript of any unnecessary detail down to the core of the explanation received from client
 
@@ -24,6 +27,20 @@ def cleanup_transcript(transcript):
 
     """
 
+    messages = [
+        {"role": "system", "content": clean_up_prompt},
+        {
+            "role": "user",
+            "content": f'''Clenaup the interview transcript for the product or project received from client
+                    
+
+                    """
+                    {transcript}
+                    """
+
+                    ''',
+        },
+    ]
     cleaned_up_transcript = ""
     clean_up_prompt = f"""
         **Overview**
@@ -51,9 +68,20 @@ def cleanup_transcript(transcript):
 
         …
         """
-
-    # TODO: Implement the clean up llm call here
-    return cleaned_up_transcript
+    if stream is True:
+        transcript_stream = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return transcript_stream, messages
+    else:
+        cleaned_up_transcript = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return cleaned_up_transcript, messages
 
 
 # Step 2 - Generate functional & non-functional requirements from cleaned up transcript
