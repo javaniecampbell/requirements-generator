@@ -14,7 +14,7 @@ from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
 from models.models import read_csv_data
-from prompts import cleanup_transcript
+from prompts import cleanup_transcript, generate_functional_non_functional_requirements
 
 load_dotenv()
 
@@ -450,26 +450,8 @@ def main():
     print(
         "Step 2 - Generate the functional and non-functional requirements from transcript for the product or project\n\n"
     )
-    requirements_stream = client.chat.completions.create(
-        model=GPT_3_5_TURBO_0613,
-        messages=[
-            {
-                "role": "system",
-                "content": functional_non_functional_requirements_prompt,
-            },
-            {
-                "role": "user",
-                "content": f'''Generate ALL functional and non-functional requirements from transcript when complete output <FINISH>
-                
-
-                Transcript:
-                """
-                {cleaned_up_transcript}
-                """
-                ''',
-            },
-        ],
-        stream=True,
+    requirements_stream, messages = generate_functional_non_functional_requirements(
+        cleaned_up_transcript, stream=True
     )
     print(f"\nFunctional & Non-Functional:\n\n")
     for chunk in requirements_stream:

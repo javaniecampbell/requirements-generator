@@ -1,3 +1,4 @@
+from email import message
 from pyexpat.errors import messages
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -27,20 +28,6 @@ def cleanup_transcript(transcript, stream=False):
 
     """
 
-    messages = [
-        {"role": "system", "content": clean_up_prompt},
-        {
-            "role": "user",
-            "content": f'''Clenaup the interview transcript for the product or project received from client
-                    
-
-                    """
-                    {transcript}
-                    """
-
-                    ''',
-        },
-    ]
     cleaned_up_transcript = ""
     clean_up_prompt = f"""
         **Overview**
@@ -68,6 +55,20 @@ def cleanup_transcript(transcript, stream=False):
 
         …
         """
+    messages = [
+        {"role": "system", "content": clean_up_prompt},
+        {
+            "role": "user",
+            "content": f'''Clenaup the interview transcript for the product or project received from client
+                    
+
+                    """
+                    {transcript}
+                    """
+
+                    ''',
+        },
+    ]
     if stream is True:
         transcript_stream = client.chat.completions.create(
             model=GPT_3_5_TURBO_0613,
@@ -85,7 +86,9 @@ def cleanup_transcript(transcript, stream=False):
 
 
 # Step 2 - Generate functional & non-functional requirements from cleaned up transcript
-def generate_functional_non_functional_requirements(cleaned_up_transcript):
+def generate_functional_non_functional_requirements(
+    cleaned_up_transcript, stream=False
+):
     """
     Responsible for generating the functional & non-functional requirements from the cleaned up prompt output
 
@@ -132,9 +135,37 @@ def generate_functional_non_functional_requirements(cleaned_up_transcript):
 
         …
         """
-    # TODO: Implement the functional & non-functional llm call here
+    messages = [
+        {
+            "role": "system",
+            "content": functional_non_functional_requirements_prompt,
+        },
+        {
+            "role": "user",
+            "content": f'''Generate ALL functional and non-functional requirements from transcript when complete output <FINISH>
+                
 
-    return requirements
+                Transcript:
+                """
+                {cleaned_up_transcript}
+                """
+                ''',
+        },
+    ]
+    if stream is True:
+        requirements_stream = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return requirements_stream, messages
+    else:
+        requirements = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return requirements, messages
 
 
 # Step 3 - Plan epics, features and scenarios for the product or project from the output produced by the functional & non-functional requirements prompt
