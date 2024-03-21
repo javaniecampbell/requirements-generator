@@ -17,6 +17,7 @@ from models.models import read_csv_data
 from prompts import (
     cleanup_transcript,
     generate_functional_non_functional_requirements,
+    generate_user_stories_with_acceptance_criteria,
     plan_product_epics_features_scenarios_from,
 )
 
@@ -482,26 +483,8 @@ def main():
         f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---"""
     )
     # Step 3 - Generate user stories with acceptance criteria from the epics & features list
-    user_stories_stream = client.chat.completions.create(
-        model=GPT_3_5_TURBO_0613,
-        messages=[
-            {
-                "role": "system",
-                "content": user_story_acceptance_criteria_writer_prompt,
-            },
-            {
-                "role": "user",
-                "content": f'''Generate user stories with acceptance criteria from the epics, features & scenarios list when complete output <FINISH>
-                
-                Epics, Features & Scenarios List:
-
-                """
-                {epics_feature_list}
-                
-                ''',
-            },
-        ],
-        stream=True,
+    user_stories_stream, messages = generate_user_stories_with_acceptance_criteria(
+        epics_feature_list, stream=True
     )
     print("\nPlanned Product Epics, Features & Scenarios:\n\n")
     for chunk in user_stories_stream:

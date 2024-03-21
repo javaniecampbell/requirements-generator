@@ -322,7 +322,7 @@ def plan_product_epics_features_scenarios_from(requirements, stream=False):
         return epics_feature_list, messages
 
 
-def generate_user_stories_with_acceptance_criteria(epics_feature_list):
+def generate_user_stories_with_acceptance_criteria(epics_feature_list, stream=False):
     """
     Responsible for creating user stories and acceptance criteria from the epics & features list.
 
@@ -568,6 +568,34 @@ def generate_user_stories_with_acceptance_criteria(epics_feature_list):
 
     …
     """
+    messages = [
+        {
+            "role": "system",
+            "content": user_story_acceptance_criteria_writer_prompt,
+        },
+        {
+            "role": "user",
+            "content": f'''Generate user stories with acceptance criteria from the epics, features & scenarios list when complete output <FINISH>
+                    
+                    Epics, Features & Scenarios List:
 
-    # TODO: Implement generate user stories llm call here
-    return user_stories_with_acceptance_criteria
+                    """
+                    {epics_feature_list}
+                    
+                    ''',
+        },
+    ]
+    if stream is True:
+        user_stories_stream = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return user_stories_stream, messages
+    else:
+        user_stories_with_acceptance_criteria = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return user_stories_with_acceptance_criteria, messages
