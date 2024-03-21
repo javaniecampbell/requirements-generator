@@ -91,7 +91,7 @@ Explain how others can contribute - issues, feature requests, pull requests etc.
 
 ## License
 
-This project is licensed under the <TBA> License. I have yet to determine the appropriate license for this project. This project is currently my personal and intellectual property until further notice.
+This project is licensed under the __TBA__ License. I have yet to determine the appropriate license for this project. This project is currently my personal and intellectual property until further notice.
 
 ## Credits
 
