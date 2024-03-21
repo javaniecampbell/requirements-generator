@@ -56,7 +56,7 @@ Provide step-by-step instructions for setting up and running the project.
 1. Clone the repository
 
 ```bash
-git clone https://github.com/user/project.git
+git clone https://github.com/javaniecampbell/requirements-generator.git
 ```
 
 2. Create a virtual environment:
@@ -65,7 +65,12 @@ git clone https://github.com/user/project.git
 python3 -m venv venv
 ```
 
-2b. Set evironment key from OpenAI
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+4. Set evironment key from OpenAI
 
 ```bash
 
@@ -80,7 +85,7 @@ OPENAI_API_KEY="sk-yourkey"
 ```
 
 
-3. Activate the virtual environment:
+5. Activate the virtual environment:
 
 Linux/Unix
 
