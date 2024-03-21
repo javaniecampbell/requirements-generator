@@ -14,7 +14,11 @@ from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
 from models.models import read_csv_data
-from prompts import cleanup_transcript, generate_functional_non_functional_requirements
+from prompts import (
+    cleanup_transcript,
+    generate_functional_non_functional_requirements,
+    plan_product_epics_features_scenarios_from,
+)
 
 load_dotenv()
 
@@ -466,27 +470,8 @@ def main():
     print(
         "Step 3 - Generate a list of epics and features from the functional and non-functional requirements\n\n"
     )
-    epics_feature_stream = client.chat.completions.create(
-        model=GPT_3_5_TURBO_0613,
-        messages=[
-            {
-                "role": "system",
-                "content": product_planner_prompt,
-            },
-            {
-                "role": "user",
-                "content": f'''Plan the epics, features and scenarios from the functional and non-functional requirements when complete output <FINISH>
-                
-                Requirements:
-
-                """
-                {requirements}
-                """
-        
-                ''',
-            },
-        ],
-        stream=True,
+    epics_feature_stream, messages = plan_product_epics_features_scenarios_from(
+        requirements, stream=True
     )
     print("\nPlanned Product Epics, Features & Scenarios:\n\n")
     for chunk in epics_feature_stream:

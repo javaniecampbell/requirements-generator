@@ -169,7 +169,7 @@ def generate_functional_non_functional_requirements(
 
 
 # Step 3 - Plan epics, features and scenarios for the product or project from the output produced by the functional & non-functional requirements prompt
-def plan_product_epics_features_scenarios_from(requirements):
+def plan_product_epics_features_scenarios_from(requirements, stream=False):
     """
     Responsible for creating epics and features from the output produced by the functional & non-functional requirements prompt.
 
@@ -287,9 +287,39 @@ def plan_product_epics_features_scenarios_from(requirements):
 
     …
     """
+    messages = [
+        {
+            "role": "system",
+            "content": product_planner_prompt,
+        },
+        {
+            "role": "user",
+            "content": f'''Plan the epics, features and scenarios from the functional and non-functional requirements when complete output <FINISH>
+                    
+                    Requirements:
 
-    # TODO: Implement the product planner call here
-    return epics_feature_list
+                    """
+                    {requirements}
+                    """
+            
+                    ''',
+        },
+    ]
+
+    if stream is True:
+        epics_feature_stream = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return epics_feature_stream, messages
+    else:
+        epics_feature_list = client.chat.completions.create(
+            model=GPT_3_5_TURBO_0613,
+            messages=messages,
+            stream=stream,
+        )
+        return epics_feature_list, messages
 
 
 def generate_user_stories_with_acceptance_criteria(epics_feature_list):
@@ -307,40 +337,6 @@ def generate_user_stories_with_acceptance_criteria(epics_feature_list):
         >>> generate_user_stories_with_acceptance_criteria(epics_feature_list)
         'User Stories with Acceptance Criteria'
 
-    """
-
-    user_stories_with_acceptance_criteria = ""
-
-    user_story_acceptance_criteria_writer_prompt = f"""
-    **Overview**
-
-    Responsible for creation of user stories and acceptance criteria from the output produced by the product planner prompt. User stories will create using the I.N.V.E.S.T Framework story Description & Gherkin for Story Acceptance Criteria
-
-    ...
-
-    Given the Epics & Feature List, generate user stories with acceptance criteria as outlined in your task objective please:
-
-    “””
-    Epics & Feature List:
-
-    {epics_feature_list}
-
-    “”
-
-    Assistant:
-
-    User Stories with Acceptance Criteria
-
-    …
-    """
-
-    # TODO: Implement generate user stories llm call here
-    return user_stories_with_acceptance_criteria
-
-
-def generate_user_stories_with_acceptance_criteria(epics_feature_list):
-    """
-    Responsible for creating user stories and acceptance criteria from the epics & features list.
     """
 
     user_stories_with_acceptance_criteria = ""
