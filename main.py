@@ -102,7 +102,8 @@ def main():
             epics_feature_list += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
     write_to_md(
-        f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---"""
+        md_file,
+        f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---""",
     )
     # Step 3 - Generate user stories with acceptance criteria from the epics & features list
     user_stories_stream, messages = generate_user_stories_with_acceptance_criteria(
