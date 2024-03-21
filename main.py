@@ -25,7 +25,7 @@ from prompts import (
 load_dotenv()
 
 client = OpenAI()
-md_file = f"requirements{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
+md_file = f"requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
 
 
 def main():
