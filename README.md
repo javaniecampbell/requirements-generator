@@ -49,6 +49,8 @@ When <action>
 Then <outcome>
 ```
 
+- Breakdown generated requirements into user stories using common practices like INVEST criteria, gheriken and several work items outlined in [project-models.md](docs/project-models.md)
+
 ## Installation
 
 Provide step-by-step instructions for setting up and running the project.
