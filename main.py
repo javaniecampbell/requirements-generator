@@ -3,7 +3,6 @@ import time
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-import markdown
 from ai_helper_functions import (
     GPT_3_5_TURBO_0613,
     GPT_4_32K_0613,
