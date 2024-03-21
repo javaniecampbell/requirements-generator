@@ -113,7 +113,9 @@ def main():
         if chunk.choices[0].delta.content is not None:
             user_stories += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
-    write_to_md(f"""## User Stories with Acceptance Criteria:\n{user_stories}\n---""")
+    write_to_md(
+        md_file, f"""## User Stories with Acceptance Criteria:\n{user_stories}\n---"""
+    )
     # Step 4 - Generate a template for the product owner to review and approve
     template = f"""
     # Product Owner Template\n
