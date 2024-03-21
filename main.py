@@ -118,23 +118,23 @@ def main():
     )
     # Step 4 - Generate a template for the product owner to review and approve
     template = f"""
-    # Product Owner Template\n
-    ## Cleaned up transcript:\n
-    
-    {cleaned_up_transcript}
-    ---\n
-    ## Functional & Non-Functional:\n
+# Product Owner Template\n
+## Cleaned up transcript:\n
 
-    {requirements}
-    ---\n
-    ## Epics & Feature List:\n
+{cleaned_up_transcript}
+---\n
+## Functional & Non-Functional:\n
 
-    {epics_feature_list}
-    ---\n
-    ## User Stories with Acceptance Criteria:\n
+{requirements}
+---\n
+## Epics & Feature List:\n
 
-    {user_stories}
-    ---\n
+{epics_feature_list}
+---\n
+## User Stories with Acceptance Criteria:\n
+
+{user_stories}
+---\n
     """
     print(f"\n{template}\n\n")
     # Usage
