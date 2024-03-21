@@ -2,6 +2,7 @@ import datetime
 import httpx
 import csv
 import json
+from markdown import markdown
 from selectolax.parser import HTMLParser
 from urllib.parse import urljoin
 from dataclasses import dataclass
@@ -103,3 +104,8 @@ def read_file(filename):
         content = file.read()
         file.close()
     return content
+
+
+def write_to_md(file_path, text):
+    with open(file_path, "a") as f:
+        f.write(markdown.markdown(text) + "\n")

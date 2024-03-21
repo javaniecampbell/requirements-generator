@@ -13,7 +13,7 @@ from ai_helper_functions import (
 from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
-from functions import read_file
+from functions import read_file, write_to_md
 from models.models import read_csv_data
 from prompts import (
     cleanup_transcript,
@@ -24,16 +24,8 @@ from prompts import (
 
 load_dotenv()
 
-
 client = OpenAI()
-
-
 md_file = f"requirements{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
-
-
-def write_to_md(text):
-    with open(md_file, "a") as f:
-        f.write(markdown.markdown(text) + "\n")
 
 
 def main():
@@ -79,7 +71,7 @@ def main():
         if chunk.choices[0].delta.content is not None:
             cleaned_up_transcript += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
-    write_to_md(f"""## Cleaned up transcript:\n{cleaned_up_transcript}\n---""")
+    write_to_md(md_file, f"""## Cleaned up transcript:\n{cleaned_up_transcript}\n---""")
     # Step 1.1 - Create a questionnaire to capture the functional and non-functional requirements for the product or project
     # Step 1.1.1 - Generate the functional and non-functional requirements from the questionnaire results for the product or project
     # OR ALTERNATIVELY
@@ -95,7 +87,7 @@ def main():
         if chunk.choices[0].delta.content is not None:
             requirements += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
-    write_to_md(f"""## Functional & Non-Functional:\n{requirements}\n---""")
+    write_to_md(md_file, f"""## Functional & Non-Functional:\n{requirements}\n---""")
 
     # Step 2 - Generate a list of epics and features from the functional and non-functional requirements
     # epics_feature_list = []
