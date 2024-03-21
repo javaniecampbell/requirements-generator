@@ -8,8 +8,6 @@ from dataclasses import dataclass
 from itertools import islice
 
 
-
-
 @dataclass
 class Item:
     name: str | None
@@ -94,3 +92,14 @@ def write_json(results, filename):
         return None
     with open(filename, "w") as jsonfile:
         json.dump([obj.__dict__ for obj in results], jsonfile)
+
+
+def read_file(filename):
+    """
+    Responsible for reading the file and returning the data as a list.
+    """
+    content = ""
+    with open(filename, "r") as file:
+        content = file.read()
+        file.close()
+    return content
