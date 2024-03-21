@@ -2,7 +2,7 @@ import datetime
 import httpx
 import csv
 import json
-from markdown import markdown
+import markdown
 from selectolax.parser import HTMLParser
 from urllib.parse import urljoin
 from dataclasses import dataclass
@@ -100,7 +100,7 @@ def read_file(filename):
     Responsible for reading the file and returning the data as a list.
     """
     content = ""
-    with open(filename, mode="r", encoding="utf8") as file:
+    with open(filename, mode="r", encoding="cp437", errors="ignore") as file:
         content = file.read()
         file.close()
     return content
