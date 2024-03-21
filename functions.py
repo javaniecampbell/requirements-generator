@@ -100,7 +100,7 @@ def read_file(filename):
     Responsible for reading the file and returning the data as a list.
     """
     content = ""
-    with open(filename, "r") as file:
+    with open(filename, mode="r", encoding="utf8") as file:
         content = file.read()
         file.close()
     return content
