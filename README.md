@@ -70,7 +70,7 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-4. Set evironment key from OpenAI
+4. Set environment key from [OpenAI API](https://platform.openai.com/api-keys)
 
 ```bash
 
