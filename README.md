@@ -99,6 +99,9 @@ Contact for permission to use this project commercially, within your own project
 
 List contributors, related projects, tutorials, inspirations etc will be listed here.
 
+
+[![requirements-generator contributors](https://contrib.rocks/image?repo=javaniecampbell/requirements-generator)](https://github.com/javaniecampbell/requirements-generator/graphs/contributors)
+
 ## Contact
 
 For questions, support, bug reports - github issues can be submitted.
