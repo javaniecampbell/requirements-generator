@@ -65,6 +65,21 @@ git clone https://github.com/user/project.git
 python3 -m venv venv
 ```
 
+2b. Set evironment key from OpenAI
+
+```bash
+
+export OPENAI_API_KEY="sk-yourkey"
+
+```
+
+OR
+
+```env
+OPENAI_API_KEY="sk-yourkey"
+```
+
+
 3. Activate the virtual environment:
 
 Linux/Unix
