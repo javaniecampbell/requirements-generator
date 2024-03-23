@@ -67,27 +67,13 @@ git clone https://github.com/javaniecampbell/requirements-generator.git
 python3 -m venv venv
 ```
 
-3. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-4. Set environment key from [OpenAI API](https://platform.openai.com/api-keys)
+OR conda
 
 ```bash
-
-export OPENAI_API_KEY="sk-yourkey"
-
+conda init && conda create -n <environment> -f environment.yml
 ```
 
-OR
-
-```env
-OPENAI_API_KEY="sk-yourkey"
-```
-
-
-5. Activate the virtual environment:
+3. Activate the virtual environment:
 
 Linux/Unix
 
@@ -99,6 +85,44 @@ OR Windows
 
 ```bash
 & venv/Scripts/Activate.ps1
+```
+
+4. Activate the virtual environment via conda:
+
+```bash
+conda init && conda activate <environmnt>
+```
+
+5. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+6. Set environment key from [OpenAI API](https://platform.openai.com/api-keys)
+
+```bash
+
+export OPENAI_API_KEY="sk-yourkey"
+
+```
+
+OR create `.env` file and add:
+
+```env
+OPENAI_API_KEY="sk-yourkey"
+```
+
+7. For observability, run the following before running the main.py:
+
+```bash
+docker run -p 6006:6006 -i -t arizephoenix/phoenix:latest -d
+```
+
+8. Run the project
+
+```bash
+python main.py
 ```
 
 ## Usage
@@ -120,7 +144,6 @@ Contact for permission to use this project commercially, within your own project
 ## Credits
 
 List contributors, related projects, tutorials, inspirations etc will be listed here.
-
 
 [![requirements-generator contributors](https://contrib.rocks/image?repo=javaniecampbell/requirements-generator)](https://github.com/javaniecampbell/requirements-generator/graphs/contributors)
 
