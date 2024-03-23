@@ -4,7 +4,7 @@ import re
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from ai_helper_functions import GPT_3_5_TURBO_0613
+from ai_helper_functions import GPT_3_5_TURBO_0613, GPT_3_5_TURBO_16K_0613
 from functions import read_file
 
 load_dotenv()
@@ -232,14 +232,14 @@ def generate_user_stories_with_acceptance_criteria(epics_feature_list, stream=Fa
     ]
     if stream is True:
         user_stories_stream = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_3_5_TURBO_16K_0613,
             messages=messages,
             stream=stream,
         )
         return user_stories_stream, messages
     else:
         user_stories_with_acceptance_criteria = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_3_5_TURBO_16K_0613,
             messages=messages,
             stream=stream,
         )
