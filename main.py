@@ -15,6 +15,7 @@ from domain.event_bus import EventBus
 
 from functions import read_file, write_to_md
 from models.models import read_csv_data
+from observability.instrumentation import instrument
 from prompts import (
     cleanup_transcript,
     generate_functional_non_functional_requirements,
@@ -23,6 +24,7 @@ from prompts import (
 )
 
 load_dotenv()
+instrument()
 
 client = OpenAI()
 md_file = f"requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
@@ -139,6 +141,13 @@ def main():
     """
     print(f"\n{template}\n\n")
     # Usage
+    # EventBus.publish(DomainEvent(
+    #     name="FeatureAdded",
+    #     data={
+    #         "epic": "As a user, I want to view a list of products",
+    #         "feature": "View product list page"
+    #     })
+    # )
     EventBus.subscribe(on_feature_added)
     time.sleep(5)
 
