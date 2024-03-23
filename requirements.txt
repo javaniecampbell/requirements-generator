@@ -76,3 +76,4 @@ openinference-instrumentation-openai
 arize-phoenix
 opentelemetry-sdk
 opentelemetry-exporter-otlp
+arize-phoenix[evals]
