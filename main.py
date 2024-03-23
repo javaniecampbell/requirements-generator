@@ -24,9 +24,9 @@ from prompts import (
 )
 
 load_dotenv()
-instrument()
 
 client = OpenAI()
+instrument()
 md_file = f"requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
 
 
@@ -72,6 +72,7 @@ def main():
             cleaned_up_transcript += chunk.choices[0].delta.content
             print(chunk.choices[0].delta.content, end="")
     write_to_md(md_file, f"""## Cleaned up transcript:\n{cleaned_up_transcript}\n---""")
+    time.sleep(5)
     # Step 1.1 - Create a questionnaire to capture the functional and non-functional requirements for the product or project
     # Step 1.1.1 - Generate the functional and non-functional requirements from the questionnaire results for the product or project
     # OR ALTERNATIVELY
@@ -91,7 +92,7 @@ def main():
 
     # Step 2 - Generate a list of epics and features from the functional and non-functional requirements
     # epics_feature_list = []
-
+    time.sleep(5)
     print(
         "Step 3 - Generate a list of epics and features from the functional and non-functional requirements\n\n"
     )
@@ -108,6 +109,11 @@ def main():
         f"""## Planned Product Epics, Features & Scenarios:\n{epics_feature_list}\n---""",
     )
     # Step 3 - Generate user stories with acceptance criteria from the epics & features list
+
+    time.sleep(5)
+    print(
+        "Step 4 - Generate user stories with acceptance criteria from the epics & features list\n\n"
+    )
     user_stories_stream, messages = generate_user_stories_with_acceptance_criteria(
         epics_feature_list, stream=True
     )
