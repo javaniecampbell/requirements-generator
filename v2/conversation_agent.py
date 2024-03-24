@@ -29,9 +29,9 @@ class ConversationAgent:
                     "content": next_response.choices[0].message.content,
                 }
             )
-            return conversation
+            return next_response
         if response.choices[0].finish_reason == "stop":
             for convo in conversation:
                 self.conversation.append(convo)
 
-            return self.conversation
+            return response
