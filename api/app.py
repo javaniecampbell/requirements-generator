@@ -22,7 +22,7 @@ async def get_products():
     return {
         "products": [
             {
-                "name": "Product1",
+                "name": "Product2",
                 "description": "Description1",
                 "price": 9.99,
                 "tax": 1.99,
