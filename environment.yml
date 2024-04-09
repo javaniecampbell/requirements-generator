@@ -63,12 +63,14 @@ dependencies:
       - distro==1.9.0
       - docstring-parser==0.15
       - executing==2.0.1
+      - fastapi==0.110.1
       - frozenlist==1.4.1
       - googleapis-common-protos==1.63.0
       - graphql-core==3.2.3
       - grpcio==1.62.1
       - h11==0.14.0
       - httpcore==1.0.2
+      - httptools==0.6.1
       - httpx==0.25.2
       - idna==3.4
       - importlib-metadata==6.11.0
@@ -148,7 +150,9 @@ dependencies:
       - umap-learn==0.5.5
       - urllib3==2.0.7
       - uvicorn==0.29.0
+      - watchfiles==0.21.0
       - wcwidth==0.2.12
+      - websockets==12.0
       - wrapt==1.16.0
       - yarl==1.9.4
       - zipp==3.18.1
