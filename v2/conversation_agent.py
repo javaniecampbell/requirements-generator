@@ -13,6 +13,13 @@ class ConversationAgent:
         response = self._client.chat.completions.create(
             model=self.model, messages=conversation, temperature=1
         )
+        # TODO: Verify if this needs to happen here
+        # conversation.append(
+        #     {
+        #         "role": response.choices[0].message.role,
+        #         "content": response.choices[0].message.content,
+        #     }
+        # )
 
         # Check if the response is incomplete
         if response.choices[0].finish_reason == "length":
@@ -31,6 +38,13 @@ class ConversationAgent:
             )
             return next_response
         if response.choices[0].finish_reason == "stop":
+            # TODO: Verify if it should happen here
+            # conversation.append(
+            #     {
+            #         "role": response.choices[0].message.role,
+            #         "content": response.choices[0].message.content,
+            #     }
+            # )
             for convo in conversation:
                 self.conversation.append(convo)
 
