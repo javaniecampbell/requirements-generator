@@ -4,6 +4,7 @@ import time
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import uvicorn
 from ai_helper_functions import (
     GPT_3_5_TURBO_0613,
     GPT_4_32K_0613,
@@ -30,7 +31,7 @@ instrument()
 md_file = f"requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
 
 
-def main():
+def app():
     # Input
     transcript = read_file("data/transcript.md")
 
@@ -164,6 +165,10 @@ def on_feature_added(event: DomainEvent):
         print(
             f"Event: '{event.name}' - Feature '{event.data['feature']}' added to Epic '{event.data['epic']}'"
         )
+
+
+def main():
+    uvicorn.run("api.app:app", port=5000, log_level="info", reload=True)
 
 
 if __name__ == "__main__":
