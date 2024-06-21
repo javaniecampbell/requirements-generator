@@ -168,7 +168,7 @@ def on_feature_added(event: DomainEvent):
 
 
 def main():
-    uvicorn.run("api.app:app", port=5000, log_level="info", reload=True)
+    uvicorn.run("presentation.api.app:app", port=5000, log_level="info", reload=True)
 
 
 if __name__ == "__main__":
