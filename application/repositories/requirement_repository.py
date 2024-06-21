@@ -1,6 +1,7 @@
-from typing import Protocol
+from typing import List, Protocol
 
-from domain.requirement import Requirement
+from domain.models import Contract
+from domain.entities.requirement import Requirement
 
 
 class RequirementRepository(Protocol):
