@@ -16,7 +16,7 @@ from domain.event_bus import EventBus
 
 from infrastructure.ai.tools.functions import read_file, write_to_md
 from models.models import read_csv_data
-from observability.instrumentation import instrument
+from shared.observability.instrumentation import instrument
 from infrastructure.ai.prompts import (
     cleanup_transcript,
     generate_functional_non_functional_requirements,
@@ -24,38 +24,43 @@ from infrastructure.ai.prompts import (
     plan_product_epics_features_scenarios_from,
 )
 
+
 load_dotenv()
 
 client = OpenAI()
 instrument()
-md_file = f"requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
+md_file = (
+    f"content/outputs/requirements-{datetime.now().strftime('%d-%m-%Y-%H-%M-%S')}.md"
+)
 
 
 def app():
     # Input
-    transcript = read_file("data/transcript.md")
+    transcript = read_file("content/inputs/transcript.md")
 
     # Inputs/Outputs
     cleaned_up_transcript = ""
     requirements = ""
     epics_feature_list = ""
     user_stories = ""
-    clean_up_prompt = read_file("prompts/cleanup_prompt.md")
+    clean_up_prompt = read_file("content/prompts/cleanup_prompt.md")
 
     functional_non_functional_requirements_prompt = read_file(
-        "prompts/functional_non_functional_requirements_prompt.md"
+        "content/prompts/functional_non_functional_requirements_prompt.md"
     )
 
-    product_planner_prompt = read_file("prompts/product_planner_prompt.md")
+    product_planner_prompt = read_file("content/prompts/product_planner_prompt.md")
 
     user_story_acceptance_criteria_writer_prompt = read_file(
-        "prompts/user_story_acceptance_criteria_writer_prompt.md"
+        "content/prompts/user_story_acceptance_criteria_writer_prompt.md"
     )
 
     print("Start...")
 
     # Example usage:
-    filepath = os.path.join(os.path.dirname(__file__), "data", "openai-pricelist.csv")
+    filepath = os.path.join(
+        os.path.dirname(__file__), "content/inputs", "openai-pricelist.csv"
+    )
     num_tokens = num_tokens_from_messages(clean_up_prompt, GPT_3_5_TURBO_0613)
     model_data_list = read_csv_data(filepath)
     cost = calculate_cost(num_tokens, GPT_3_5_TURBO_0613, model_data_list)

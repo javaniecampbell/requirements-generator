@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from ai.tools.ai_helper_functions import GPT_3_5_TURBO_0613
+from infrastructure.ai.tools.ai_helper_functions import GPT_3_5_TURBO_0613
 
 
 def chat_openai(client: OpenAI, prompt: str, model=GPT_3_5_TURBO_0613):
