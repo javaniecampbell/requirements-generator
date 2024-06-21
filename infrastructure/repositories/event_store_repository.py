@@ -3,10 +3,11 @@ from multipledispatch import dispatch
 
 from domain.aggregate_root import AggregateRoot
 from domain.event import Event
+from domain.repositories import AbstractRepository
 from domain.snapshot import Snapshot
 
 
-class EventStore:
+class EventStoreRepository(AbstractRepository):
     """
     Represents an event store that stores and retrieves events for aggregates.
     """
@@ -157,9 +158,9 @@ class EventStore:
 # Event sourcing helpers
 
 
-@dispatch(EventStore, type, str)
+@dispatch(EventStoreRepository, type, str)
 def rebuild_aggregate(
-    event_store: EventStore, aggregate_class: type, aggregate_id: str
+    event_store: EventStoreRepository, aggregate_class: type, aggregate_id: str
 ):
     """
     Rebuilds an aggregate by loading its history of events from the event store.
@@ -184,7 +185,7 @@ def rebuild_aggregate(
     return aggregate
 
 
-@dispatch(EventStore, type, str, int)
+@dispatch(EventStoreRepository, type, str, int)
 def rebuild_aggregate(event_store, aggregate_class, aggregate_id, upto_version=None):
     """
     Rebuilds an aggregate by applying events from the event store.
