@@ -5,6 +5,13 @@ import re
 
 
 class ModelData(BaseModel):
+    """
+    Represents data for a model, including various cost and usage metrics.
+    
+    The `ModelData` class is a Pydantic model that represents data for a model, including various cost and usage metrics such as input per token, output per token, training per token, and usage per token. The class uses Pydantic's field validation features to ensure the data is in the correct format.
+    
+    The `read_csv_data` function reads data from a CSV file and returns a list of `ModelData` instances.
+    """
     model_config = ConfigDict(protected_namespaces=(), extra="ignore")
     model_type: str = Field(..., alias="Model Type")
     model: str = Field(..., alias="Model")
