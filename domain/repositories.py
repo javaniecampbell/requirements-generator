@@ -4,6 +4,7 @@ from typing import List, Optional, Type
 
 from domain.aggregate_root import AggregateRoot
 from domain.event import Event
+from domain.requirement import Requirement
 from domain.snapshot import Snapshot
 
 
@@ -117,4 +118,26 @@ class AbstractRepository(ABC):
         Raises:
             ValueError: If an aggregate type is already registered for the specified ID.
         """
+        raise NotImplementedError
+
+
+class RequirementRepository(ABC):
+    """
+    Abstract base class for the RequirementRepository.
+    """
+
+    @abstractmethod
+    def add(self, requirement: Requirement):
+        raise NotImplementedError
+
+    @abstractmethod
+    def get(self, id: int) -> Requirement:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_requirements(self, project_details) -> List[Requirement]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def create_contract(self, requirements: List[Requirement]) -> Contract:
         raise NotImplementedError
