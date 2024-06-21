@@ -1,10 +1,11 @@
-from pydantic import Field, field_validator, BaseModel, ValidationInfo
+from pydantic import Field, field_validator, BaseModel, ValidationInfo, ConfigDict
 import csv
 from typing import Optional, List, Tuple, Union
 import re
 
 
 class ModelData(BaseModel):
+    model_config = ConfigDict(protected_namespaces=(), extra="ignore")
     model_type: str = Field(..., alias="Model Type")
     model: str = Field(..., alias="Model")
     input_per_1m_tokens: Optional[float | str] = Field(

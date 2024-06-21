@@ -1,6 +1,6 @@
 # Create a Web API using FastAPI with route to products
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 app = FastAPI()
 
@@ -10,6 +10,8 @@ class Product(BaseModel):
     description: str
     price: float
     tax: float
+
+    model_config = ConfigDict(protected_namespaces=(), extra="ignore")
 
 
 @app.post("/products/")
