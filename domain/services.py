@@ -3,6 +3,17 @@ from abc import ABC, abstractmethod
 from typing import List
 from domain.requirement import Requirement
 
+class AbstractService(ABC):
+    """
+    Abstract base class for domain services.
+    """
+
+    @abstractmethod
+    def execute(self, *args, **kwargs):
+        """
+        Execute the service logic.
+        """
+        raise NotImplementedError
 
 class RequirementGenerationService(ABC):
     """
