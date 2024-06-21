@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 import uvicorn
-from ai_helper_functions import (
+from ai.tools.ai_helper_functions import (
     GPT_3_5_TURBO_0613,
     GPT_4_32K_0613,
     calculate_cost,
@@ -14,7 +14,7 @@ from ai_helper_functions import (
 from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
-from functions import read_file, write_to_md
+from ai.tools.functions import read_file, write_to_md
 from models.models import read_csv_data
 from observability.instrumentation import instrument
 from prompts import (

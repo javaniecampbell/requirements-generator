@@ -4,8 +4,8 @@ import re
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from ai_helper_functions import GPT_3_5_TURBO_0613, GPT_3_5_TURBO_16K_0613
-from functions import read_file
+from ai.tools.ai_helper_functions import GPT_3_5_TURBO_0613, GPT_3_5_TURBO_16K_0613
+from ai.tools.functions import read_file
 
 load_dotenv()
 client = OpenAI()

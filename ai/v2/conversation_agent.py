@@ -1,5 +1,5 @@
 from openai import OpenAI
-from ai_helper_functions import GPT_3_5_TURBO_0613
+from ai.tools.ai_helper_functions import GPT_3_5_TURBO_0613
 
 
 class ConversationAgent:
