@@ -1,5 +1,5 @@
 from typing import Optional
-from infrastructure.repositories.event_store import EventStore
+from infrastructure.repositories.event_store_repository import EventStore
 from event_sourcing_sample.bank_account_aggregate import BankAccount
 from multipledispatch import dispatch
 
