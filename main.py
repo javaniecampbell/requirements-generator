@@ -17,7 +17,7 @@ from domain.event_bus import EventBus
 from ai.tools.functions import read_file, write_to_md
 from models.models import read_csv_data
 from observability.instrumentation import instrument
-from prompts import (
+from ai.prompts import (
     cleanup_transcript,
     generate_functional_non_functional_requirements,
     generate_user_stories_with_acceptance_criteria,
