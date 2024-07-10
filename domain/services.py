@@ -1,7 +1,8 @@
 # Will store the abstract classes or interfaces for the domain services to be implemented in the infrastructure layer
 from abc import ABC, abstractmethod
 from typing import List
-from domain.requirement import Requirement
+from domain.entities.requirement import Requirement
+
 
 class AbstractService(ABC):
     """
@@ -14,6 +15,7 @@ class AbstractService(ABC):
         Execute the service logic.
         """
         raise NotImplementedError
+
 
 class RequirementGenerationService(ABC):
     """
