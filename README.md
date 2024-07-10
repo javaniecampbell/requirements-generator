@@ -51,6 +51,16 @@ Then <outcome>
 
 - Breakdown generated requirements into user stories using common practices like INVEST criteria, gheriken and several work items outlined in [project-models.md](docs/project-models.md)
 
+# Endpoints
+
+| Method | Endpoint                        | Description                                                                                                                                                                 |
+| ------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | /upload/request                 | User should be able to upload request with title and description, uploaded file, document(pdf,docx, excel, csv, markdown) for generation with other actions to be performed |
+| POST   | /upload/:projectId/requirements | User should be able to upload requirements document or text, title, description document(pdf,docx, excel, csv, markdown) as starting point for generation                   |
+| POST   | /upload/:projectId/featurelist  | User should be able to upload featurelist document(pdf,docx, excel, csv, markdown) or text, title, description as starting point for generation                             |
+| POST   | /upload/:projectId/stories      | User should be able to upload user stories as a document(pdf,docx, excel, csv, markdown) or text, title, description as starting point for generation                       |
+|        |                                 |                                                                                                                                                                             |
+
 ## Installation
 
 Provide step-by-step instructions for setting up and running the project.
