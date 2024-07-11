@@ -1,10 +1,11 @@
-from typing import Optional, Protocol
+from abc import ABC, abstractmethod
+from typing import Optional
 
-from domain.project import Project
+from domain.entities.project import Project
 
 
-class ProjectService(Protocol):
+class ProjectService(ABC):
 
-    def create_project(
-        self, name: str, description: Optional[str] = None
-    ) -> Project: ...
+    @abstractmethod
+    def create_project(self, name: str, description: Optional[str] = None) -> Project:
+        raise NotImplementedError
