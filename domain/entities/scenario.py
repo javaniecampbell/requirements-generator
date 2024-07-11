@@ -8,7 +8,7 @@ class Scenario:
     Attributes:
         id (str): The unique identifier of the scenario.
         title (str): The title of the scenario.
-        steps (List[str]): The list of steps in the scenario.
+        steps (List[str]): The list of steps in the scenario (Gherkin format: Given..When..And..Then..).
         parent_feature_id (str): The unique identifier of the parent feature.
         status (str): The status of the scenario. Can be "To Do", "In Progress", or "Done".
     """
