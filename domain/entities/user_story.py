@@ -1,8 +1,8 @@
 # User Stories
 from typing import List, Optional
 
-from domain.requirement import Requirement
-from domain.task import Task
+from domain.entities.acceptance_criterion import AcceptanceCriterion
+from domain.entities.task import Task
 
 
 class UserStory:
@@ -15,10 +15,9 @@ class UserStory:
         as_a (str): The role of the user who will benefit from the user story.
         i_want (str): The desired action or functionality described by the user story.
         so_that (str): The reason or benefit of implementing the user story.
-        acceptance_criteria (Optional[List[str]]): The acceptance criteria for the user story.
+        acceptance_criteria (Optional[List[AcceptanceCriterion]]): The acceptance criteria for the user story.
         parent_feature_id (str): The unique identifier of the parent feature.
         status (str): The status of the user story ("To Do", "In Progress", "Done").
-        requirements (List[Requirement]): The list of requirements associated with the user story.
         tasks (List[Task]): The list of tasks associated with the user story.
     """
 
@@ -29,7 +28,7 @@ class UserStory:
         as_a: str,
         i_want: str,
         so_that: str,
-        acceptance_criteria: Optional[List[str]],
+        acceptance_criteria: Optional[List[AcceptanceCriterion]],
         parent_feature_id: str,
         status: str,
     ):
@@ -43,34 +42,20 @@ class UserStory:
         )
         self.parent_feature_id = parent_feature_id
         self.status = status  # "To Do", "In Progress", "Done"
-        self.requirements = []
         self.tasks = []
 
-    def define_acceptance_criteria(self, criteria: str):
+    def add_acceptance_criterion(self, criterion: AcceptanceCriterion):
         """
-        Adds the given acceptance criteria to the user story.
+        Adds the given acceptance criterion to the user story.
 
         Args:
-            criteria (str): The acceptance criteria to be added.
+            criterion (AcceptanceCriterion): The acceptance criterion to be added.
 
         Returns:
             None
         """
-        self.acceptance_criteria.append(criteria)
+        self.acceptance_criteria.append(criterion)
         print(f"Domain Event: Acceptance Criteria added to {self.title}")
-
-    def add_requirement(self, requirement: Requirement):
-        """
-        Adds a requirement to the user story.
-
-        Args:
-            requirement (Requirement): The requirement to be added.
-
-        Returns:
-            None
-        """
-        self.requirements.append(requirement)
-        print(f"Domain Event: {requirement.type} Requirement added to {self.title}")
 
     def add_task(self, task_description: str):
         """
