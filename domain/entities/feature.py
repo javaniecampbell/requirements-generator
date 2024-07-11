@@ -1,6 +1,6 @@
 from typing import List, Optional
-from domain.requirement import Requirement
-from domain.user_story import UserStory
+from domain.entities.requirement import Requirement
+from domain.entities.scenario import Scenario
 
 
 class Feature:
@@ -12,41 +12,42 @@ class Feature:
         title (str): The title of the feature.
         description (str): The description of the feature.
         parent_epic_id (str): The ID of the parent epic.
-        user_stories (Optional[List[UserStory]]): The list of user stories associated with the feature.
+        scenarios (Optional[List[Scenario]]): The list of scenarios associated with the feature.
         status (str): The status of the feature. Can be "To Do", "In Progress", or "Done".
         requirements (List[Requirement]): The list of requirements associated with the feature.
     """
 
     def __init__(
-        self,
-        id: str,
-        title: str,
-        description: str,
-        parent_epic_id: str,
-        user_stories: Optional[List["UserStory"]],
-        status: str,
+        self, id: str, title: str, description: str, parent_epic_id: str, status: str
     ):
+        """
+        Initializes a new Feature object.
+
+        Args:
+            id (str): The unique identifier for the feature.
+            title (str): The title of the feature.
+            description (str): The description of the feature.
+            parent_epic_id (str): The unique identifier of the parent epic.
+            status (str): The status of the feature. Can be "To Do", "In Progress", or "Done".
+        """
         self.id = id
         self.title = title
         self.description = description
         self.parent_epic_id = parent_epic_id
-        self.user_stories = [] if user_stories is None else user_stories
         self.status = status
-        self.requirements: List["Requirement"] = []
+        self.scenarios: List[Scenario] = []
+        self.requirements: List[Requirement] = []
 
-    def add_user_story(self, user_story: UserStory):
+    def add_scenario(self, scenario: Scenario):
         """
-        Adds a user story to the feature.
+        Adds a scenario to the feature.
 
         Args:
-            user_story (UserStory): The user story to be added.
-
-        Returns:
-            None
+            scenario (Scenario): The scenario to be added.
         """
-        self.user_stories.append(user_story)
+        self.scenarios.append(scenario)
         print(
-            f"Domain Event: User Story '{user_story.title}' added to Feature '{self.title}'"
+            f"Domain Event: Scenario '{scenario.title}' added to Feature '{self.title}'"
         )
 
     def add_requirement(self, requirement: Requirement):
@@ -55,9 +56,6 @@ class Feature:
 
         Args:
             requirement (Requirement): The requirement to be added.
-
-        Returns:
-            None
         """
         self.requirements.append(requirement)
         print(
