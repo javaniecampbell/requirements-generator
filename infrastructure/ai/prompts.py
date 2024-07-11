@@ -4,7 +4,7 @@ import re
 from openai import OpenAI
 from dotenv import load_dotenv
 
-from infrastructure.ai.tools.ai_helper_functions import GPT_3_5_TURBO_0613
+from infrastructure.ai.tools.ai_helper_functions import GPT_4o
 from infrastructure.ai.tools.functions import read_file
 
 
@@ -32,7 +32,7 @@ def cleanup_transcript(transcript, stream=False):
     """
 
     cleaned_up_transcript = ""
-    clean_up_prompt = read_file("prompts/cleanup_prompt.md")
+    clean_up_prompt = read_file("content/prompts/cleanup_prompt.md")
     clean_up_prompt = clean_up_prompt.replace("{transcript}", transcript)
     messages = [
         {"role": "system", "content": clean_up_prompt},
@@ -50,14 +50,14 @@ def cleanup_transcript(transcript, stream=False):
     ]
     if stream is True:
         transcript_stream = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
         return transcript_stream, messages
     else:
         cleaned_up_transcript = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
@@ -89,7 +89,7 @@ def generate_functional_non_functional_requirements(
 
     requirements = ""
     functional_non_functional_requirements_prompt = read_file(
-        "prompts/functional_non_functional_requirements_prompt.md"
+        "content/prompts/functional_non_functional_requirements_prompt.md"
     )
     functional_non_functional_requirements_prompt = (
         functional_non_functional_requirements_prompt.replace(
@@ -115,14 +115,14 @@ def generate_functional_non_functional_requirements(
     ]
     if stream is True:
         requirements_stream = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
         return requirements_stream, messages
     else:
         requirements = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
@@ -148,7 +148,7 @@ def plan_product_epics_features_scenarios_from(requirements, stream=False):
     """
 
     epics_feature_list = ""
-    product_planner_prompt = read_file("prompts/product_planner_prompt.md")
+    product_planner_prompt = read_file("content/prompts/product_planner_prompt.md")
     product_planner_prompt = product_planner_prompt.replace(
         "{requirements}", requirements
     )
@@ -173,14 +173,14 @@ def plan_product_epics_features_scenarios_from(requirements, stream=False):
 
     if stream is True:
         epics_feature_stream = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
         return epics_feature_stream, messages
     else:
         epics_feature_list = client.chat.completions.create(
-            model=GPT_3_5_TURBO_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
@@ -207,7 +207,7 @@ def generate_user_stories_with_acceptance_criteria(epics_feature_list, stream=Fa
     user_stories_with_acceptance_criteria = ""
 
     user_story_acceptance_criteria_writer_prompt = read_file(
-        "prompts/user_story_acceptance_criteria_writer_prompt.md"
+        "content/prompts/user_story_acceptance_criteria_writer_prompt.md"
     )
     user_story_acceptance_criteria_writer_prompt = (
         user_story_acceptance_criteria_writer_prompt.replace(
@@ -233,14 +233,14 @@ def generate_user_stories_with_acceptance_criteria(epics_feature_list, stream=Fa
     ]
     if stream is True:
         user_stories_stream = client.chat.completions.create(
-            model=GPT_3_5_TURBO_16K_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
         return user_stories_stream, messages
     else:
         user_stories_with_acceptance_criteria = client.chat.completions.create(
-            model=GPT_3_5_TURBO_16K_0613,
+            model=GPT_4o,
             messages=messages,
             stream=stream,
         )
