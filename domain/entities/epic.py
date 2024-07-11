@@ -3,12 +3,20 @@ from typing import List, Optional
 from domain.domain_event import DomainEvent
 from domain.event_bus import EventBus
 
-from domain.feature import Feature
+from domain.entities.feature import Feature
 
 
 class Epic:
     """
     Represents an epic, which is a large user story or a collection of related user stories.
+
+
+    Attributes:
+        id (str): The unique identifier of the epic.
+        title (str): The title of the epic.
+        description (str): The description of the epic.
+        features (Optional[List[Feature]]): The list of features associated with the epic.
+        status (str): The status of the epic. Can be one of "To Do", "In Progress", or "Done".
     """
 
     def __init__(
@@ -32,7 +40,7 @@ class Epic:
         self.id = id
         self.title = title
         self.description = description
-        self.features = [] if features is None else features
+        self.features: List[Feature] = [] if features is None else features
         self.status = status  # "To Do", "In Progress", "Done"
 
     def add_feature(self, feature: Feature):
