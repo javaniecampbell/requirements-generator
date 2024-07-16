@@ -51,15 +51,18 @@ Then <outcome>
 
 - Breakdown generated requirements into user stories using common practices like INVEST criteria, gheriken and several work items outlined in [project-models.md](docs/project-models.md)
 
-# Endpoints
+## Endpoints
 
-| Method | Endpoint                        | Description                                                                                                                                                                 |
-| ------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /upload/request                 | User should be able to upload request with title and description, uploaded file, document(pdf,docx, excel, csv, markdown) for generation with other actions to be performed |
-| POST   | /upload/:projectId/requirements | User should be able to upload requirements document or text, title, description document(pdf,docx, excel, csv, markdown) as starting point for generation                   |
-| POST   | /upload/:projectId/featurelist  | User should be able to upload featurelist document(pdf,docx, excel, csv, markdown) or text, title, description as starting point for generation                             |
-| POST   | /upload/:projectId/stories      | User should be able to upload user stories as a document(pdf,docx, excel, csv, markdown) or text, title, description as starting point for generation                       |
-|        |                                 |                                                                                                                                                                             |
+
+| Method | Endpoint                                            | Description                                                  |
+| ------ | --------------------------------------------------- | ------------------------------------------------------------ |
+| POST   | /projects/request/upload                            | User should be able to upload request with title and description, uploaded file, document (*.pdf, *.docx, *.excel, *.csv, *.markdown, *.md) for generation with other actions to be performed later by a job queue |
+| POST   | /projects/:project-id/requirements/upload           | User should be able to upload requirements document or text, title, description document (*.pdf, *.docx, *.excel, *.csv, *.markdown, *.md) as starting point for generation to be added to a job queue |
+| POST   | /projects/:project-id/feature-list/upload           | User should be able to upload feature-list document (*.pdf, *.docx, *.excel, *.csv, *.markdown, *.md) or text, title, description as starting point for generation to be added to a job queue |
+| POST   | /projects/:project-id/stories/upload                | User should be able to upload user stories as a document (*.pdf, *.docx, *.excel, *.csv, *.markdown, *.md)  or text, title, description as starting point for generation to be added to a job queue. |
+| POST   | /projects/:project-id/requirements/:job-id/generate | User should be able to trigger or schedule the generation of the job for requirements generation  in background worker or job scheduler from request uploaded. |
+| POST   | /projects/:project-id/feature-list/:job-id/generate | User should be able to trigger or schedule the generation of the job for feature list breakdown in another background worker or job scheduler from the requirements previously generated. |
+| POST   | /projects/:project-id/stories/:job-id/generate      | User should be able to trigger or schedule the generation of the job for user stories breakdown in another background worker or job scheduler from the feature list previously generated. |
 
 ## Installation
 
