@@ -49,13 +49,20 @@ dependencies:
       - arize-phoenix-evals==0.5.0
       - asttokens==2.4.1
       - attrs==23.2.0
+      - azure-core==1.30.2
+      - azure-data-tables==12.5.0
+      - azure-identity==1.17.1
+      - azure-storage-blob==12.20.0
+      - azure-storage-queue==12.10.0
       - beautifulsoup4==4.12.2
       - bump-pydantic==0.8.0
       - certifi==2023.7.22
+      - cffi==1.16.0
       - charset-normalizer==3.3.2
       - click==8.1.7
       - colorama==0.4.6
       - comm==0.2.0
+      - cryptography==42.0.8
       - cython==0.29.37
       - debugpy==1.8.0
       - decorator==5.1.1
@@ -77,6 +84,7 @@ dependencies:
       - instructor==0.6.4
       - ipykernel==6.26.0
       - ipython==8.18.0
+      - isodate==0.6.1
       - jedi==0.19.1
       - jinja2==3.1.3
       - jupyter-client==8.6.0
@@ -88,6 +96,8 @@ dependencies:
       - markupsafe==2.1.5
       - matplotlib-inline==0.1.6
       - mdurl==0.1.2
+      - msal==1.29.0
+      - msal-extensions==1.2.0
       - multidict==6.0.5
       - multipledispatch==1.0.0
       - mypy-extensions==1.0.0
@@ -112,15 +122,18 @@ dependencies:
       - parso==0.8.3
       - pexpect==4.9.0
       - platformdirs==4.0.0
+      - portalocker==2.10.1
       - prompt-toolkit==3.0.41
       - protobuf==4.25.3
       - psutil==5.9.6
       - ptyprocess==0.7.0
       - pure-eval==0.2.2
       - pyarrow==15.0.2
+      - pycparser==2.22
       - pydantic==2.6.3
       - pydantic-core==2.16.3
       - pygments==2.17.2
+      - pyjwt==2.8.0
       - pynndescent==0.5.11
       - python-dateutil==2.8.2
       - python-dotenv==1.0.1
