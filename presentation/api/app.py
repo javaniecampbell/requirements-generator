@@ -1,5 +1,5 @@
 # Create a Web API using FastAPI with route to products
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, Form, UploadFile
 from pydantic import BaseModel, ConfigDict
 
 app = FastAPI()
@@ -23,32 +23,92 @@ app = FastAPI()
 
 
 # Create a class for each endpoint using Pydantic BaseModel
-class Request(BaseModel):
+class ProjectRequest(BaseModel):
     title: str
     description: str
-    uploaded_file: str
+    uploaded_filename: str | None = None
     document: str
+
+    @classmethod
+    def as_form(
+        cls,
+        title: str = Form(...),
+        description: str = Form(...),
+        uploaded_filename: str = Form(...),
+        document: str = Form(...),
+    ):
+        return cls(
+            title=title,
+            description=description,
+            uploaded_filename=uploaded_filename,
+            document=document,
+        )
 
 
 class Requirements(BaseModel):
     title: str
     description: str
-    uploaded_file: str
+    uploaded_filename: str | None = None
     document: str
+
+    @classmethod
+    def as_form(
+        cls,
+        title: str = Form(...),
+        description: str = Form(...),
+        uploaded_filename: str = Form(...),
+        document: str = Form(...),
+    ):
+        return cls(
+            title=title,
+            description=description,
+            uploaded_filename=uploaded_filename,
+            document=document,
+        )
 
 
 class FeatureList(BaseModel):
     title: str
     description: str
-    uploaded_file: str
+    uploaded_filename: str | None = None
     document: str
+
+    @classmethod
+    def as_form(
+        cls,
+        title: str = Form(...),
+        description: str = Form(...),
+        uploaded_filename: str = Form(...),
+        document: str = Form(...),
+    ):
+        return cls(
+            title=title,
+            description=description,
+            uploaded_filename=uploaded_filename,
+            document=document,
+        )
 
 
 class Stories(BaseModel):
     title: str
     description: str
-    uploaded_file: str
+    uploaded_filename: str | None = None
     document: str
+
+    @classmethod
+    def as_form(
+        cls,
+        title: str = Form(...),
+        description: str = Form(...),
+        uploaded_filename: str = Form(...),
+        document: str = Form(...),
+    ):
+        return cls(
+            title=title,
+            description=description,
+            uploaded_filename=uploaded_filename,
+            document=document,
+        )
 
 
 class GenerateRequirements(BaseModel):
@@ -65,7 +125,10 @@ class GenerateStories(BaseModel):
 
 # Create the endpoints using FastAPI
 @app.post("/projects/request/upload")
-async def upload_request(request: Request):
+async def upload_request(
+    form_data: ProjectRequest = Depends(ProjectRequest.as_form),
+    uploaded_file: UploadFile | None = None,
+):
     return request
 
 
