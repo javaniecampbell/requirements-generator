@@ -1,6 +1,12 @@
 # Create a Web API using FastAPI with route to products
-from fastapi import Depends, FastAPI, Form, UploadFile
+import os
+from fastapi import Depends, FastAPI, Form, Request, UploadFile
 from pydantic import BaseModel, ConfigDict
+
+from shared.logging import Logger
+
+
+logger = Logger()
 
 app = FastAPI()
 
@@ -126,10 +132,28 @@ class GenerateStories(BaseModel):
 # Create the endpoints using FastAPI
 @app.post("/projects/request/upload")
 async def upload_request(
+    request: Request,
     form_data: ProjectRequest = Depends(ProjectRequest.as_form),
     uploaded_file: UploadFile | None = None,
 ):
-    return request
+    logger.info("Entering upload_request")
+    project_id = "123"
+    save_to: str = ""
+    # Save the uploaded file
+    if uploaded_file:
+        if not os.path.exists(f"uploads/projects/{project_id}"):
+            os.makedirs(f"uploads/projects/{project_id}")
+        if form_data.uploaded_filename:
+            save_to = f"uploads/projects/{project_id}/{form_data.uploaded_filename}.{uploaded_file.filename.split('.')[-1]}"
+        else:
+            form_data.uploaded_filename = uploaded_file.filename
+            save_to = f"uploads/projects/{project_id}/{uploaded_file.filename}"
+        with open(save_to, "wb") as f:
+            f.write(uploaded_file.read())
+    else:
+        logger.info("No file uploaded")
+        save_to = None
+    return form_data
 
 
 @app.post("/projects/{project_id}/requirements/upload")
